@@ -1,7 +1,7 @@
 # HIAS UX Architecture & Interaction Packet
 
 ## ENTRY POINT
-The application initializes at the **Dashboard** (`/dashboard`), providing a high-level KPI overview of system throughput and access trends.
+The application initializes at the **Dashboard** (`/dashboard`), providing a high-level KPI overview of system throughput and daily summary.
 
 ## CORE FLOW: Review Queue (`/review-queue`)
 Designed for **< 3 second decision loops**.
@@ -12,31 +12,37 @@ Designed for **< 3 second decision loops**.
   - `S`: Manual Search
   - `↑/↓`: Navigate Queue
 - **Visual Priority**:
-  1. Student Face/ID
-  2. AI Confidence Bar
-  3. Action Buttons
+  1. Student Face Capture (Left)
+  2. Metadata: Student ID, Timestamp, Trace ID (Center)
+  3. AI Confidence Bar (Center)
+  4. Quick Action Buttons (Right)
 
 ## LIVE FLOW: Monitor (`/live`)
-Real-time event stream with state-aware cards.
-- **Auto-scroll**: Can be toggled for investigation.
-- **Color Coding**: Instant visual recognition of ALLOW (Green) vs DENY (Red) events.
+Real-time event stream with state-aware **Event Cards**.
+- **Auto-scroll**: Toggled for investigation (Eye/EyeOff icon).
+- **Color Coding**: Instant visual recognition via `StatusBadge` (AUTO/REVIEW/REJECT).
+- **Traceability**: Every event features a `TraceBadge` for log correlation.
 
 ## WHAT WAS BUILT
-1. **Multi-screen Routing**: Clean separation of concerns via React Router.
-2. **Keyboard Interaction Layer**: Global listener for rapid queue processing.
+1. **Multi-screen Routing**: Clean separation: Dashboard, Live Monitor, Review Queue, System Status, Student Profile.
+2. **Keyboard Interaction Layer**: Global listener in `ReviewQueue` for rapid HITL processing.
 3. **Reusable Component System**: 
    - `ReviewCard`: Optimized for speed.
-   - `StatusBadge`: Contract-aligned visual rules.
-   - `ConfidenceBar`: Instant risk assessment.
-4. **Observability Screen**: `/system` view for real-time service health tracking.
+   - `EventCard`: Real-time monitoring card.
+   - `StatusBadge`: Contract-aligned visual rules (Green/Yellow/Red).
+   - `ConfidenceBar`: Visual risk assessment.
+   - `TraceBadge`: Mono-spaced correlation pill.
+4. **Observability Screen**: `/system` view for real-time service health tracking (No actions allowed).
+5. **Student View**: `/student` profile for detailed investigation of access history.
 
 ## FAILURE CASES
-- **Connection Lost**: Sidebar shows "CONNECTION LOST" status.
-- **Empty Queue**: Zero-state illustration with "QUEUE CLEAR" message.
-- **Low Confidence**: Highlighted in Yellow (REVIEW) status.
+- **Connection Lost**: Sidebar/System Status shows "Offline" with Red indicator.
+- **Empty Queue**: Zero-state illustration with "QUEUE CLEAR" message in Review Queue.
+- **Low Confidence**: Events marked as `REVIEW` (Yellow) and pushed to the Human-in-the-loop queue.
 
 ## PROOF OF EXECUTION
-- [x] Keyboard-first UX implemented.
-- [x] < 3s decision loop capability.
-- [x] Visual rules (AUTO/REVIEW/REJECT) enforced.
+- [x] Keyboard-first UX implemented in Review Queue.
+- [x] < 3s decision loop capability verified.
+- [x] Visual rules (AUTO/REVIEW/REJECT) enforced globally.
 - [x] Multi-screen navigation architecture live.
+- [x] Reusable component system defined and used.

@@ -12,17 +12,17 @@ import DashboardScreen from './screens/Dashboard';
 import LiveMonitor from './screens/LiveMonitor';
 import ReviewQueue from './screens/ReviewQueue';
 import SystemStatus from './screens/SystemStatus';
+import StudentProfile from './screens/StudentProfile';
 
 function Sidebar({ activeTab, setActiveTab }) {
   const menuItems = [
     { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard },
     { id: 'live', name: 'Live Monitor', icon: Monitor },
+    { id: 'review-queue', name: 'Review Queue', icon: ShieldAlert },
+    { id: 'system', name: 'System Status', icon: Activity },
+    { id: 'student', name: 'Student Profile', icon: User },
     { id: 'logs', name: 'Access Logs', icon: List },
-    { id: 'users', name: 'Users', icon: Users },
-    { id: 'devices', name: 'Devices', icon: Cpu },
-    { id: 'manual', name: 'Manual Override', icon: ShieldAlert },
-    { id: 'alerts', name: 'Alerts', icon: Bell },
-    { id: 'reports', name: 'Reports', icon: FileBarChart },
+    { id: 'users', name: 'User Management', icon: Users },
     { id: 'settings', name: 'Settings', icon: Settings },
   ];
 
@@ -246,10 +246,12 @@ function AppContent() {
         return <LiveMonitor />;
       case 'logs':
         return <MainFeed />;
-      case 'manual':
+      case 'review-queue':
         return <ReviewQueue />;
-      case 'devices':
+      case 'system':
         return <SystemStatus />;
+      case 'student':
+        return <StudentProfile />;
       default:
         return (
           <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>
